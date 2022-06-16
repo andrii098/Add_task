@@ -1,0 +1,39 @@
+
+<button class="btn btn-secondary" onclick="move('/')">
+    <i class="bi bi-arrow-90deg-left"></i> Назад
+</button>
+
+<form action="/createTodo" method="post">
+    <label class="fw-bold">Name</label>
+    <input class="form-control" type="text" value="{{name}}" name="name" required>
+
+    <label class="fw-bold">Description</label>
+    <textarea class="form-control" name="description" rows="3">{{description}}</textarea>
+
+    <label class="fw-bold">Status</label>
+    <select class="form-select" name="status" id="status">
+        <option value="0">
+            {{#statusName 0}}{{/statusName}}
+        </option>
+        <option value="1">
+            {{#statusName 1}}{{/statusName}}
+        </option>
+        <option value="2">
+            {{#statusName 2}}{{/statusName}}
+        </option>
+        <option value="3">
+            {{#statusName 3}}{{/statusName}}
+        </option>
+        <option value="4">
+            {{#statusName 4}}{{/statusName}}
+        </option>
+    </select>
+    <script>
+        document.getElementById("status").selectedIndex = {{status}};
+    </script>
+
+    <label class="fw-bold">Comment</label>
+    <textarea class="form-control" name="comment" rows="4">{{comment}}</textarea>
+    <br>
+    <input class="form-control btn btn-success" type="submit" value="Создать">
+</form>

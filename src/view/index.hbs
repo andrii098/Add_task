@@ -1,0 +1,79 @@
+
+{{!-- Перебираем тудушки в цикле  --}}
+{{#each todos}}
+    <div class="alert alert-{{#statusClass status}}{{/statusClass}} d-flex justify-content-between">
+        <div>
+            {{!-- Здесь мы делаем красивое отображение названия и статуса выполнения тудушки --}}
+            <button class="btn btn-{{#statusClass status}}{{/statusClass}}" onclick="upgradeStatus({{id}},{{status}})">
+                <span class="{{#statusIcon status}}{{/statusIcon}}"></span>
+            </button>
+            {{name}}
+            <span class="badge bg-{{#statusClass status}}{{/statusClass}}">
+                {{#statusName status}}
+                {{/statusName}}
+            </span>
+        </div>
+        <div class="todo-buttons d-flex">
+            <!-- Кнопка открытия диалогового окна -->
+            <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#todoModal{{id}}">
+                <i class="bi bi-eye-fill"></i>
+            </button>
+            <!-- Кнопка редактирования -->
+            <button type="button" class="btn btn-primary" onclick="move('/updateTodo/{{id}}')">
+                <i class="bi bi-pen"></i>
+            </button>
+            <!-- Кнопка удаления -->
+            <form action="/deleteTodo" method="post">
+                <input type="hidden" value="{{id}}" name="id">
+                <button class="btn btn-danger">
+                    <i class="bi bi-trash-fill"></i>
+                </button>
+            </form>
+        </div>
+    </div>
+    <!-- Диалоговое окно с подробной информацией о тудушке -->
+    <div class="modal fade modal-dialog-scrollable" id="todoModal{{id}}" tabindex="-1" aria-labelledby="todoModal{{id}}Label" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="todoModal{{id}}Label">{{name}}</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Статус: {{#statusName status}}
+                    {{/statusName}}
+                    <hr>
+                    {{#if description}}
+                        <h4>Описание</h4>
+                        {{description}}
+                    {{/if}}
+                    {{#if comment}}
+                        <h4>Комментарий</h4>
+                        {{comment}}
+                    {{/if}}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+{{/each}}
+<div class="d-flex justify-content-center">
+    <button type="button" class="btn btn-success" onclick="move('/createTodo')">
+        <i class="bi bi-file-earmark-plus-fill"></i>
+    </button>
+</div>
+
+<script>
+    async function upgradeStatus(id, status) {
+        const xhr = new XMLHttpRequest();
+        xhr.open("POST", "/updateTodo", true);
+        xhr.setRequestHeader('Content-Type', 'application/json');
+        xhr.send(JSON.stringify({
+            id: id,
+            status: status>3?0:status+1,
+        }));
+        location.reload();
+    }
+</script>
