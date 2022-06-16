@@ -10,3 +10,9 @@
 4. Запустить скрипт start.bat (если у вас Windows) или start.sh (если у вас Linux)
 
 5. Готово! Приложение будет работать пока окошко консоли start.bat/start.sh открыто. (закрыть можно нажав по нему крестик, как и с любым другим приложением)
+
+6. Результаты
+
+![img.png](results/img1.png)
+![img.png](results/img2.png)
+![img_1.png](results/img3.png)
